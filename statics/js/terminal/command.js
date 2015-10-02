@@ -13,10 +13,7 @@ var Command = (function(){
 		execute: function(){
 			ActiveTerminal.pausePrompt();
 
-			var ret = CommandList.execute(this, (function(){
-				ActiveTerminal.readyPrompt();
-				this.done();
-			}).bind(this));
+			var ret = CommandList.execute(this);
 			if(ret!==void 0) return this.exit(ret);
 		},
 		exit: function(code){

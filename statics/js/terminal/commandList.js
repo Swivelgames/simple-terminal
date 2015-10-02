@@ -6,19 +6,17 @@ var CommandList = (function(){
 		register: function(command, func){
 			this.commands[command] = func;
 		},
-		execute: function(cmdObj, done) {
+		execute: function(cmdObj) {
 			if(!this.commands.hasOwnProperty(cmdObj.command)) {
 				console.log("-bash: "+cmdObj.command+": command not found");
 			} else {
 				try {
-					var exitCode = this.commands[cmdObj.command].apply(cmdObj);
-					if(exitCode===-5) return;
+					return this.commands[cmdObj.command].apply(cmdObj);
 				} catch(e) {
 					console.error(e);
+					return 0;
 				}
 			}
-
-			done(exitCode);
 		}
 	};
 

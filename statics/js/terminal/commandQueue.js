@@ -29,7 +29,7 @@ var CommandQueue = (function(){
 		this.current = new Command(nextCmd);
 	}
 
-	Constructor.prototype.receiveExitCode = function(code) {
+	Constructor.prototype.cmdExit = function(code) {
 		this._waiting = false;
 		this._executeNext();
 	};

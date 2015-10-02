@@ -4,7 +4,7 @@ CommandList.register('motd', function(){
 
 	setTimeout('console.warn("-bash: kill: (null) - Operation not permitted");', 500);
 	setTimeout('console.warn("-bash: kill: (null) - Operation not permitted");', 2000);
-	setTimeout('console.log("[]# login");', 2250);
+	setTimeout('console.log("# login");', 2250);
 	setTimeout('console.log("-bash: login: unknown user");', 3500);
 	setTimeout('console.info("Welcome, "+ActiveTerminal.session.user);', 4000);
 	setTimeout('ActiveTerminal.readyPrompt();ActiveTerminal.getInput().focus();', 4150);
