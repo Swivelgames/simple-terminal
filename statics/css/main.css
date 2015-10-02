@@ -2,10 +2,11 @@ html,body {
 	font-size: 10px;
 }
 
-form.terminal {
+form.terminal label {
 	background-color: #263238;
 	box-shadow: inset 1px 2px 3px rgba(0,0,0,0.5);
 	padding: 20px;
+	height:100vh;
 }
 
 form.terminal,

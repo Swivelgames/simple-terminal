@@ -7,7 +7,7 @@ var Session = (function(){
 	};
 
 	Constructor.prototype = {
-		user: 'null',
+		user: 'user',
 		hostname: 'local',
 		pwd: '~',
 		history: null

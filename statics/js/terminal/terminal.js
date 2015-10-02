@@ -25,7 +25,7 @@ var Terminal = (function($, window, undefined){
 
 			setTimeout(function(){
 				this.readyPrompt();
-				this.queue.push("startup");
+				this.queue.push("login");
 			}.bind(this),500);
 		},
 
@@ -75,7 +75,12 @@ var Terminal = (function($, window, undefined){
 		},
 
 		cancelCurrentCommand: function(){
-			this.writeMessage('command', this.getInput().val() || "");
+			if(this.queue.waiting) {
+				this.writeMessage('warn', 'Ctrl+C detected...');
+				this.queue.cmdExit(-1);
+			} else {
+				this.writeMessage('command', this.getInput().val() || "");
+			}
 			this.readyPrompt();
 		},
 
@@ -109,7 +114,7 @@ var Terminal = (function($, window, undefined){
 			var $input = this.getInput();
 			var $lead = this.generatePromptLead().addClass('prompt-lead');
 			$lead.insertBefore( $input );
-			$input.val("").show().css({ "textIndent": $lead.outerWidth() });
+			$input.val("").css({ "position": "static", "left": "none", "textIndent": $lead.outerWidth() });
 			$input.focus();
 		},
 
@@ -123,7 +128,8 @@ var Terminal = (function($, window, undefined){
 			var cmds = inputText.split(/\n\r?(?!$)/);
 
 			for(var i=0;i<cmds.length;i++) {
-				this.queue.push( cmds[i].trim() );
+				var cmd = cmds[i].trim();
+				if(cmd!=="") this.queue.push( cmd );
 			}
 
 			this.__pendingCmd = "";
@@ -131,7 +137,10 @@ var Terminal = (function($, window, undefined){
 
 		pausePrompt: function(){
 			this.getPromptLead().remove();
-			this.getInput().hide().val("");
+			this.getInput().css({
+				'position': 'absolute',
+				'left': '-1000vw'
+			}).val("");
 		},
 
 		writeMessage: function(type, messages){
