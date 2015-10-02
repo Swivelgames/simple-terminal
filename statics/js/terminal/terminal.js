@@ -67,12 +67,21 @@ var Terminal = (function($, window, undefined){
 						if(this.tabtab>1) this.listCommands();
 					}
 				} else this.tabtab = 0;
+
+				if(e.which===99 && e.ctrlDown) this.cancelCurrentCommand();
 			}.bind(this));
+
+			this.getInput().get(0).addEventListener('copy', this.cancelCurrentCommand.bind(this));
+		},
+
+		cancelCurrentCommand: function(){
+			this.writeMessage('command', this.getInput().val() || "");
+			this.readyPrompt();
 		},
 
 		listCommands: function(){
 			this.tabtab = 0;
-			this.writeMessage('command', this.getInput().val() || "");
+			this.cancelCurrentCommand();
 			this.writeMessage('log', Object.keys(CommandList.commands).join("\t"));
 		},
 
@@ -100,7 +109,7 @@ var Terminal = (function($, window, undefined){
 			var $input = this.getInput();
 			var $lead = this.generatePromptLead().addClass('prompt-lead');
 			$lead.insertBefore( $input );
-			$input.show().css({ "textIndent": $lead.outerWidth() });
+			$input.val("").show().css({ "textIndent": $lead.outerWidth() });
 			$input.focus();
 		},
 

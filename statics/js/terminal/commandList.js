@@ -14,9 +14,10 @@ var CommandList = (function(){
 					return this.commands[cmdObj.command].apply(cmdObj);
 				} catch(e) {
 					console.error(e);
-					return 0;
 				}
 			}
+
+			return 0;
 		}
 	};
 
