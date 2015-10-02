@@ -7,5 +7,9 @@ CommandList.register('motd', function(){
 	setTimeout('console.log("# login");', 2250);
 	setTimeout('console.log("-bash: login: unknown user");', 3500);
 	setTimeout('console.info("Welcome, "+ActiveTerminal.session.user);', 4000);
-	setTimeout('ActiveTerminal.readyPrompt();ActiveTerminal.getInput().focus();', 4150);
+	setTimeout(function(){
+		ActiveTerminal.readyPrompt();
+		ActiveTerminal.getInput().focus();
+		this.exit(0);
+	}.bind(this), 4150);
 });

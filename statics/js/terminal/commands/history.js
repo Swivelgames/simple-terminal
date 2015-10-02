@@ -5,7 +5,7 @@ CommandList.register('history', function(){
 		ActiveTerminal.queue.push(history[this.argsv[1]]);
 	} else {
 		for(var i=0;i<history.length-1;i++) {
-			console.log("["+i+"]\t"+history[i]);
+			console.log("\t"+i+"\t"+history[i]);
 		}
 	}
 
