@@ -7,29 +7,53 @@ var Terminal = (function($, window, undefined){
 	};
 
 	Constructor.prototype = {
+		historyIndex: -1,
+		__curInput: "",
+
 		container: null,
 
 		queue: null,
 		session: null,
 
 		init: function(){
-			this.queue = new CommandQueue();
 			this.session = new Session();
+			this.queue = new CommandQueue();
 
 			this.initHandlers();
-			this.readyPrompt();
+
+			setTimeout(function(){
+				this.readyPrompt();
+				this.queue.push("motd");
+			}.bind(this),500);
 		},
 
 		initHandlers: function(){
 			this.getInput().get(0).addEventListener('input', function(e){
 				e.preventDefault();
 
-				if(
-					(
-						$(e.srcElement).val().match(/\n\r?/) || []
-					).length > 0
-				) {
+				var curVal = this.__curInput = this.getInput().val();
+
+				if( (curVal.match(/\n\r?/) || []).length > 0 ) {
 					this.handleInput(e);
+				}
+			}.bind(this));
+
+			this.getInput().on('focus blur focusin focusout', function(){
+				this.getInput().css({ "textIndent": this.getPromptLead().outerWidth() });
+			}.bind(this));
+
+			this.getInput().on('keydown', function(e){
+				if(e.which===38 || e.which==40) { //up or down
+					var history = this.session.history;
+
+					if(e.which===38 && this.historyIndex > 0) this.historyIndex--; //up
+					if(e.which==40 && this.historyIndex < history.length) this.historyIndex++; //down
+
+					if(this.historyIndex === history.length) {
+						this.getInput().val( this.__curInput );
+					} else {
+						this.getInput().val( history[this.historyIndex].trim() );
+					}
 				}
 			}.bind(this));
 		},
@@ -51,8 +75,14 @@ var Terminal = (function($, window, undefined){
 		},
 
 		readyPrompt: function(){
+			this.historyIndex = this.session.history.length;
+
 			this.getPromptLead().remove();
-			this.generatePromptLead().addClass('prompt-lead').insertBefore( this.getInput().show() );
+
+			var $input = this.getInput();
+			var $lead = this.generatePromptLead().addClass('prompt-lead');
+			$lead.insertBefore( $input );
+			$input.show().css({ "textIndent": $lead.outerWidth() });
 		},
 
 		handleInput: function(e){
@@ -65,8 +95,10 @@ var Terminal = (function($, window, undefined){
 			var cmds = inputText.split(/\n\r?(?!$)/);
 
 			for(var i=0;i<cmds.length;i++) {
-				this.queue.push( cmds[i] );
+				this.queue.push( cmds[i].trim() );
 			}
+
+			this.__pendingCmd = "";
 		},
 
 		pausePrompt: function(){

@@ -1,7 +1,9 @@
 var Command = (function(){
 	var Constructor = function(cmd, done){
 		this.origCommand = cmd;
-		this.argsv = cmd.split(/\n\r?/g);
+		this.argsv = cmd.split(/\s+\n?\r?/) || [cmd];
+		this.command = this.argsv[0];
+		this.arguments = this.argsv;
 		this.done = done;
 
 		this.execute();
@@ -11,14 +13,17 @@ var Command = (function(){
 		execute: function(){
 			ActiveTerminal.pausePrompt();
 
-			var argsv = this.argsv.slice();
-			console.log("Command: "+argsv.splice(0,1));
-			console.log("Args: "+(argsv.join(", ")));
-			console.log("Done analyzing");
-
-			ActiveTerminal.readyPrompt();
-
-			this.done();
+			var ret = CommandList.execute(this, (function(){
+				ActiveTerminal.readyPrompt();
+				this.done();
+			}).bind(this));
+			if(ret!==void 0) return this.exit(ret);
+		},
+		exit: function(code){
+			if(code>=-1) {
+				ActiveTerminal.readyPrompt();
+				ActiveTerminal.queue.cmdExit(code);
+			}
 		}
 	};
 

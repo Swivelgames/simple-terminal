@@ -9,10 +9,7 @@ window.console = (function(window, undefined){
 
 	ConsoleWrapper._original_console = (function(){ return window.console; })();
 
-	ConsoleWrapper.writeMessage = function() {
-		var args = Array.prototype.slice.call(arguments);
-		var type = args.splice(0,1);
-
+	ConsoleWrapper.writeMessage = function(type, args) {
 		if(window.ActiveTerminal !== void 0) {
 			window.ActiveTerminal.writeMessage(type, args);
 		}

@@ -3,12 +3,14 @@ var Session = (function(){
 		this.user = user || this.user;
 		this.hostname = hostname || this.hostname;
 		this.pwd = pwd || this.pwd;
+		this.history = [];
 	};
 
 	Constructor.prototype = {
-		user: 'visitor',
+		user: 'null',
 		hostname: 'local',
-		pwd: '~'
+		pwd: '~',
+		history: null
 	};
 
 	return Constructor;

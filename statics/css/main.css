@@ -43,7 +43,7 @@ form.terminal label {
 	display: block;
 }
 
-.prompt { display: inline-block; margin-right: 8px;}
+.prompt { display: inline-block; padding-right: 8px;}
 .prompt-lead {
 	position: absolute;
 }

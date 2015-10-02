@@ -1,16 +1,19 @@
 var CommandQueue = (function(){
-	var Constructor = function(){ return Array.apply(this,arguments); };
+	var Constructor = function(){/* return Array.apply(this,arguments); */};
 
-	Constructor.prototype = Object.create(Array.prototype, {
-		"push": {
-			"writable": false,
-			"enumerable": true,
-			"value": function(arguments){
-				Array.prototype.push.apply(this, arguments);
-				this._executeNext();
+	Constructor.prototype = Object.create(
+		Array.prototype || Object.getPrototypeOf(Array.prototype), {
+			"push": {
+				"writable": false,
+				"enumerable": false,
+				"configurable": false,
+				"value": function(){
+					Array.prototype.push.apply(this, arguments);
+					this._executeNext();
+				}
 			}
 		}
-	});
+	);
 
 	Constructor.prototype.current = null;
 	Constructor.prototype._waiting = false;
@@ -19,13 +22,17 @@ var CommandQueue = (function(){
 		if(this.length<1 || this._waiting) return;
 		this._waiting = true;
 
-		var nextCmd = this.splice(0,1);
+		var nextCmd = this.splice(0,1)[0];
 
-		this.current = new Command(nextCmd, (function(){
-			this._waiting = false;
-			this._executeNext();
-		}).bind(this));
+		ActiveTerminal.session.history.push(nextCmd);
+
+		this.current = new Command(nextCmd);
 	}
+
+	Constructor.prototype.receiveExitCode = function(code) {
+		this._waiting = false;
+		this._executeNext();
+	};
 
 	return Constructor;
 })();
