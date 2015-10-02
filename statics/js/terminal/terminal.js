@@ -10,6 +10,8 @@ var Terminal = (function($, window, undefined){
 		historyIndex: -1,
 		__curInput: "",
 
+		tabtab: 0,
+
 		container: null,
 
 		queue: null,
@@ -23,7 +25,7 @@ var Terminal = (function($, window, undefined){
 
 			setTimeout(function(){
 				this.readyPrompt();
-				this.queue.push("motd");
+				this.queue.push("startup");
 			}.bind(this),500);
 		},
 
@@ -55,7 +57,23 @@ var Terminal = (function($, window, undefined){
 						this.getInput().val( history[this.historyIndex].trim() );
 					}
 				}
+
+				if(e.which===9) {
+					e.preventDefault();
+
+					this.tabtab++;
+
+					if(this.getInput().val()=="") {
+						if(this.tabtab>1) this.listCommands();
+					}
+				} else this.tabtab = 0;
 			}.bind(this));
+		},
+
+		listCommands: function(){
+			this.tabtab = 0;
+			this.writeMessage('command', this.getInput().val() || "");
+			this.writeMessage('log', Object.keys(CommandList.commands).join("\t"));
 		},
 
 		getInput: function(){ return this.container.find('.commandInput'); },
@@ -83,6 +101,7 @@ var Terminal = (function($, window, undefined){
 			var $lead = this.generatePromptLead().addClass('prompt-lead');
 			$lead.insertBefore( $input );
 			$input.show().css({ "textIndent": $lead.outerWidth() });
+			$input.focus();
 		},
 
 		handleInput: function(e){
@@ -113,6 +132,8 @@ var Terminal = (function($, window, undefined){
 			if(type==="command") {
 				$tpl.html( this.generatePromptLead() );
 			}
+
+			if(typeof messages === "string") messages = [messages];
 
 			for(var i=0;i<messages.length;i++) {
 				$tpl.append(document.createTextNode(messages[i]));
