@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Swivel</title>
+		<link href='https://fonts.googleapis.com/css?family=Share+Tech+Mono' rel='stylesheet' type='text/css'>
+		<link href="./statics/css/reset.css" rel="stylesheet" type="text/css">
+		<link href="./statics/css/main.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<form class="terminal"><!-- oninput="ActiveTerminal.receiveInput(commandInput)"> -->
+			<label for="commandInput">
+				<section>
+					<!--output data-type="info">/bin/sh</output>
+					<output data-type="log">[visitor@local ~]# ssh visitor@swivel.in</output>
+					<br>
+					<output data-type="info">OpenSSH_5.8p1, OpenSSL 1.0.0d 8 Feb 2011</output>
+					<output data-type="log">debug1: Reading configuration data /etc/sshd/sshd.config</output>
+					<output data-type="log">debug1: Applying options for swivel.in</output>
+					<output data-type="log">debug1: Connecting to swivel.in [XX.XX.XXX.XXX] port 22.</output>
+					<output data-type="warn">debug1: connect to address XX.XX.XXX.XXX port 22: Attempt to connect timed out without establishing a connection</output>
+					<output data-type="error">ssh: connect to host swivel.in port 22: Connection timed out</output>
+					<output data-type="error">ssh: connect to host swivel.in port 22: Bad file number</output>
+					<output data-type="error">debug1: unknown error</output>
+					<output data-type="error">debug1: unknown error</output>
+					<output data-type="error">debug1: null</output>
+					<output data-type="error">debug1: null</output>
+					<output data-type="error">ssh: an unknown error occurred</output>
+					<output data-type="warn">The authenticity of host 'swivel.in (XX.XX.XXX.XXX)' can't be established.</output>
+					<output data-type="info">RSA key Fingerprint is xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx.</output>
+					<output data-type="warn">Warning: Permanently added 'swivel.in,XX.XX.XXX.XXX' (RSA) to the list of known hosts.</output>
+					<br>
+					<output data-type="log">Last login: Fri Sept 4 15:38:47 1998 from null</output-->
+				</section>
+				<!-- div class="prompt">
+					[<span class="user">root</span><span class="host">@swivel.in</span> <span class="pwd">~</span>]<span class="char">#</span>
+				</div -->
+				<textarea class="commandInput" name="commandInput" id="commandInput"></textarea>
+			</label>
+		</form>
+
+		<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+		<script src="./statics/js/terminal/session.js"></script>
+		<script src="./statics/js/terminal/command.js"></script>
+		<script src="./statics/js/terminal/commandQueue.js"></script>
+		<script src="./statics/js/terminal/consoleWrapper.js"></script>
+		<script src="./statics/js/terminal/terminal.js"></script>
+		<script>
+			var ActiveTerminal = new Terminal( $('.terminal').first() );
+		</script>
+	</body>
+</html>
