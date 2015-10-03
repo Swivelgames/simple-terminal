@@ -25,7 +25,7 @@ var Terminal = (function($, window, undefined){
 
 			setTimeout(function(){
 				this.readyPrompt();
-				this.queue.push("login");
+				this.queue.push("login", true);
 			}.bind(this),500);
 		},
 

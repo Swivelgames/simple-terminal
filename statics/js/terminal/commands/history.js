@@ -7,7 +7,7 @@ define(function(){
 			ActiveTerminal.queue.push(history[this.argsv[1]], true);
 			return this.exit(-2);
 		} else {
-			for(var i=0;i<history.length-1;i++) {
+			for(var i=0;i<history.length;i++) {
 				console.log("\t"+i+"\t"+history[i]);
 			}
 		}

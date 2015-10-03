@@ -10,13 +10,17 @@ define(function(){
 			return this.exit(0);
 		}
 
-		var oldSess = __.sessions.oldSessions.push(ActiveTerminal.session);
+		var oldSess = __.sessions.oldSessions[
+			__.sessions.oldSessions.push(ActiveTerminal.session) - 1
+		];
 
 		ActiveTerminal.session = new Session(
 			newUsername,
 			oldSess.hostname,
 			oldSess.pwd
 		);
+
+		if(oldSess.user==="root" || oldSess.elevated) ActiveTerminal.session.elevated = true;
 
 		return this.exit(0);
 	};

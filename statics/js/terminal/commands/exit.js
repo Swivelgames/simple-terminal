@@ -6,15 +6,16 @@ define(function(){
 		if(__.sessions.oldSessions.length > 0) {
 			ActiveTerminal.session = __.sessions.oldSessions.pop();
 		} else {
-			console.warn("-bash: kill: (null) - Operation not permitted");
-			console.warn("-bash: kill: (null) - Operation not permitted");
-			console.warn("-bash: kill: (null) - Operation not permitted");
-			console.warn("-bash: kill: (null) - Operation not permitted");
-			console.error("-bash: kill: (null) - unable to kill process for user " + ActiveTerminal.session.user + ": Permission denied.");
-			console.log("-bash: logout: -");
-			ActiveTerminal.showMotd();
+			console.info("-bash: logout");
 
-			return this.exit(-5);
+			setTimeout(function(){
+				ActiveTerminal.readyPrompt();
+				ActiveTerminal.queue.cmdExit(0, true);
+				ActiveTerminal.queue.push("login", true);
+			}.bind(this),1000);
+
+			ActiveTerminal.queue.splice(0,1e10);
+			return this.exit(-2);
 		}
 
 		return this.exit(0);

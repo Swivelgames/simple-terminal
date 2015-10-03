@@ -11,6 +11,7 @@ var Session = (function(){
 		hostname: 'local',
 		pwd: '~',
 		history: null,
+		elevated: false,
 		sudoLecture: false
 	};
 
