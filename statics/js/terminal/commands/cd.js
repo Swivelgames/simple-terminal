@@ -2,7 +2,7 @@ function cleanArr(arr){ return arr.filter(n => { return n != "" }); }
 
 define(function(){
 	return function(){
-		if(this.argsv.length < 1) {
+		if(this.argsv.length < 2) {
 			console.info("Usage: cd path");
 			return this.exit(0);
 		}
