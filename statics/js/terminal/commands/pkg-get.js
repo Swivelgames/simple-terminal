@@ -13,7 +13,7 @@ define(function(){
 			$spinner.text(spinChars[curSpinChar]);
 			// Keep it at the bottom
 			$spinner.appendTo( ActiveTerminal.container.find('section') );
-		},250);
+		},50);
 	}
 
 	function stopSpinner() {
@@ -32,6 +32,7 @@ define(function(){
 			console.info("\t");
 			return this.exit(0);
 		}
+		startSpinner();
 
 		/* Get Package URL */
 		try {
@@ -41,6 +42,7 @@ define(function(){
 		} catch(e) {
 			console.error("Error retrieving package: invalid package URL")
 			if(this.hasParam("verbose")) console.error(e);
+			stopSpinner();
 			return this.exit(0);
 		}
 
@@ -60,12 +62,12 @@ define(function(){
 		} catch(e) {
 			console.error("Error retrieving package: could not determine package name")
 			if(this.hasParam("verbose")) console.error(e);
+			stopSpinner();
 			return this.exit(0);
 		}
 
 		/* Begin Retrieval of Package */
 		console.log("Retrieving package "+pkgName);
-		startSpinner();
 
 		(function(pkgName, pkgPath){
 			if(this.hasParam("verbose")) console.warn("require(GET "+pkgPath+")");
