@@ -7,6 +7,7 @@ var Terminal = (function($, window, undefined){
 	};
 
 	Constructor.prototype = {
+		leadChar: "#",
 		historyIndex: -1,
 		__curInput: "",
 
@@ -113,7 +114,7 @@ var Terminal = (function($, window, undefined){
 				"&nbsp;",
 				$('<span class="pwd" />').text( pwd ),
 				"]",
-				$('<span class="char" />').html( "#" )
+				$('<span class="char" />').html( this.leadChar )
 			);
 		},
 

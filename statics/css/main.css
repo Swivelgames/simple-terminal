@@ -51,3 +51,7 @@ form.terminal label {
 .prompt-lead {
 	position: absolute;
 }
+
+
+.prompt .user { color: #29B6F6; }
+.prompt .host { color: #FDD835; }
