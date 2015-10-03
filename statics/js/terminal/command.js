@@ -61,7 +61,7 @@ var Command = (function(){
 		hasParam: function(lookFor, orEmpty) {
 			var opts = this.params;
 			if(orEmpty && opts.length < 1) return true;
-			return opts.indexOf("--"+lookfor) > -1 || opts.indexOf("-"+lookfor[0]) > -1;
+			return opts.indexOf("--"+lookFor) > -1 || opts.indexOf("-"+lookFor[0]) > -1;
 		},
 		exit: function(code){
 			if(code>=-1) {
