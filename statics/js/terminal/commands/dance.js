@@ -31,5 +31,7 @@ define(function(){
 		`;
 
 		$('body').append(style);
+
+		this.exit(0);
 	};
 });
