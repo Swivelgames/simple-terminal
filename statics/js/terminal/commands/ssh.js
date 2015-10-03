@@ -6,7 +6,7 @@ define(function(){
 		var conn = this.argsv[1];
 
 		if(!conn || ["--help","-h","-?","?"].indexOf(conn) > -1) {
-			console.info("Usage: ssh username@host");
+			console.info("Usage: ssh user@hostname");
 			return this.exit(0);
 		}
 

@@ -2,6 +2,11 @@ function cleanArr(arr){ return arr.filter(n => { return n != "" }); }
 
 define(function(){
 	return function(){
+		if(this.argsv.length < 1) {
+			console.info("Usage: cd path");
+			return this.exit(0);
+		}
+
 		var ActiveSession = ActiveTerminal.session;
 		var user = ActiveSession.user;
 		var homedir = "/home/"+user;
