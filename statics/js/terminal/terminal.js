@@ -7,7 +7,7 @@ var Terminal = (function($, window, undefined){
 	};
 
 	Constructor.prototype = {
-		leadChar: "#",
+		leadChar: "$",
 		historyIndex: -1,
 		__curInput: "",
 

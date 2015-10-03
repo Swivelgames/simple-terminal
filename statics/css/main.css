@@ -47,11 +47,16 @@ form.terminal label {
 	display: block;
 }
 
-.prompt { display: inline-block; padding-right: 8px;}
-.prompt-lead {
-	position: absolute;
+.prompt {
+	display: inline-block;
+	padding-right: 8px;
+	color: #B2DFDB ;
 }
+	.prompt .user { color: #03A9F4; }
+/*	.prompt .host { color: #FF5722; }*/
+	.prompt .pwd { color: #03A9F4; }
+	.prompt .char { color: #ECEFF1; }
 
-
-.prompt .user { color: #29B6F6; }
-.prompt .host { color: #FDD835; }
+	.prompt-lead {
+		position: absolute;
+	}
