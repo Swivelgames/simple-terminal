@@ -87,10 +87,12 @@ define(function(){
 				stopSpinner();
 				ActiveTerminal.queue.cmdExit(0, success);
 				if(success) ActiveTerminal.queue.push(pkgName+" --help", true);
+				ActiveTerminal.readyPrompt();
 			}.bind(this), function(err){
 				stopSpinner();
 				console.error("Error retrieving package: request for package failed in transit");
 				if(this.hasParam("verbose")) console.error(err);
+				ActiveTerminal.readyPrompt();
 				ActiveTerminal.queue.cmdExit(0);
 			}.bind(this));
 		}).call(this, pkgName, pkgPath);
