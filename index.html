@@ -43,17 +43,9 @@
 
 		<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
-		<script src="./statics/js/terminal/commandList.js"></script>
-		<script src="./statics/js/terminal/commands/motd.js"></script>
-		<script src="./statics/js/terminal/commands/exit.js"></script>
-		<script src="./statics/js/terminal/commands/clear.js"></script>
-		<script src="./statics/js/terminal/commands/ls.js"></script>
-		<script src="./statics/js/terminal/commands/sudo.js"></script>
-		<script src="./statics/js/terminal/commands/su.js"></script>
-		<script src="./statics/js/terminal/commands/ssh.js"></script>
-		<script src="./statics/js/terminal/commands/history.js"></script>
-		<script src="./statics/js/terminal/commands/login.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.20/require.min.js"></script>
 
+		<script src="./statics/js/terminal/commandList.js"></script>
 		<script src="./statics/js/terminal/session.js"></script>
 		<script src="./statics/js/terminal/command.js"></script>
 		<script src="./statics/js/terminal/commandQueue.js"></script>
@@ -61,6 +53,8 @@
 		<script src="./statics/js/terminal/terminal.js"></script>
 		<script>
 			var ActiveTerminal = new Terminal( $('.terminal').first() );
+
+			CommandList.registerAsync(["motd","exit","clear","ls","sudo","su","ssh","history","login"]);
 		</script>
 	</body>
 </html>

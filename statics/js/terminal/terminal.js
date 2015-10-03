@@ -30,7 +30,45 @@ var Terminal = (function($, window, undefined){
 		},
 
 		initHandlers: function(){
-			this.getInput().get(0).addEventListener('input', function(e){
+			var $input = this.getInput();
+
+			$input.on('focus blur focusin focusout',function(){
+				this.getInput().css({ "textIndent": this.getPromptLead().outerWidth() });
+			}.bind(this)).on('keydown', function(e){
+				var $input = this.getInput();
+
+				if(e.which===38 || e.which==40) { //up or down
+					e.preventDefault();
+
+					var history = this.session.history;
+
+					if(e.which===38 && this.historyIndex > 0) this.historyIndex--; //up
+					if(e.which==40 && this.historyIndex < history.length) this.historyIndex++; //down
+
+					if(this.historyIndex === history.length) {
+						$input.val( this.__curInput );
+					} else {
+						$input.val( history[this.historyIndex].trim() );
+					}
+
+					var inpLen = $input.val().length;
+					$input.get(0).setSelectionRange(inpLen,inpLen);
+				}
+
+				if(e.which===9) {
+					e.preventDefault();
+
+					this.tabtab++;
+
+					if($input.val()=="") {
+						if(this.tabtab>1) this.listCommands();
+					}
+				} else this.tabtab = 0;
+
+				if(e.which===99 && e.ctrlDown) this.cancelCurrentCommand();
+			}.bind(this));
+
+			$input.get(0).addEventListener('input', function(e){
 				e.preventDefault();
 
 				var curVal = this.__curInput = this.getInput().val();
@@ -40,38 +78,7 @@ var Terminal = (function($, window, undefined){
 				}
 			}.bind(this));
 
-			this.getInput().on('focus blur focusin focusout', function(){
-				this.getInput().css({ "textIndent": this.getPromptLead().outerWidth() });
-			}.bind(this));
-
-			this.getInput().on('keydown', function(e){
-				if(e.which===38 || e.which==40) { //up or down
-					var history = this.session.history;
-
-					if(e.which===38 && this.historyIndex > 0) this.historyIndex--; //up
-					if(e.which==40 && this.historyIndex < history.length) this.historyIndex++; //down
-
-					if(this.historyIndex === history.length) {
-						this.getInput().val( this.__curInput );
-					} else {
-						this.getInput().val( history[this.historyIndex].trim() );
-					}
-				}
-
-				if(e.which===9) {
-					e.preventDefault();
-
-					this.tabtab++;
-
-					if(this.getInput().val()=="") {
-						if(this.tabtab>1) this.listCommands();
-					}
-				} else this.tabtab = 0;
-
-				if(e.which===99 && e.ctrlDown) this.cancelCurrentCommand();
-			}.bind(this));
-
-			this.getInput().get(0).addEventListener('copy', this.cancelCurrentCommand.bind(this));
+			$input.get(0).addEventListener('copy', this.cancelCurrentCommand.bind(this));
 		},
 
 		cancelCurrentCommand: function(){
@@ -120,12 +127,12 @@ var Terminal = (function($, window, undefined){
 
 		handleInput: function(e){
 			var $input = this.getInput();
-			var inputText = $input.val();
+			var inputText = $input.val().replace(/[\n\r]+/ig,'');
 			$input.val("");
 
-			this.writeMessage('command', inputText);
+			this.writeMessage('command', inputText.trim());
 
-			var cmds = inputText.split(/\n\r?(?!$)/);
+			var cmds = inputText.split(/\;/);
 
 			for(var i=0;i<cmds.length;i++) {
 				var cmd = cmds[i].trim();

@@ -1,5 +1,6 @@
-CommandList.register('clear', function(){
-	ActiveTerminal.container.find('section').html("");
-
-	return 0;
+define(function(){
+	return function(){
+		ActiveTerminal.container.find('section').html("");
+		return this.exit(0);
+	};
 });
