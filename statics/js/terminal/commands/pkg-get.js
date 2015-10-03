@@ -67,7 +67,7 @@ define(function(){
 		console.log("Retrieving package "+pkgName);
 		startSpinner();
 
-		(function(pkgName, pkgPath, options){
+		(function(pkgName, pkgPath){
 			if(this.hasParam("verbose")) console.warn("require(GET "+pkgPath+")");
 			require([pkgPath.href], function(newCmd){
 				if(this.hasParam("verbose")) console.warn("200");
@@ -91,7 +91,7 @@ define(function(){
 				if(this.hasParam("verbose")) console.error(err);
 				ActiveTerminal.queue.cmdExit(0);
 			}.bind(this));
-		}).call(this, pkgName, pkgPath, options);
+		}).call(this, pkgName, pkgPath);
 
 		return this.exit(-2);
 	};
