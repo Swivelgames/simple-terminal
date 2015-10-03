@@ -2,7 +2,7 @@ var Session = (function(){
 	var Constructor = function(user, hostname, pwd){
 		this.user = user || this.user;
 		this.hostname = hostname || this.hostname;
-		this.pwd = pwd || this.pwd;
+		this.pwd = pwd || "/home/"+this.user;
 		this.history = [];
 	};
 
@@ -10,7 +10,8 @@ var Session = (function(){
 		user: 'user',
 		hostname: 'local',
 		pwd: '~',
-		history: null
+		history: null,
+		sudoLecture: false
 	};
 
 	return Constructor;

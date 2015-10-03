@@ -2,23 +2,57 @@ var Command = (function(){
 	var Constructor = function(cmd, wait){
 		this.origCommand = cmd;
 
-		if(cmd.indexOf("|") > -1) {
-			cmd = cmd.substr(0,cmd.indexOf("|"));
-			this.pipeResponse = this.origCommand.substr(
-				this.origCommand.indexOf("|") + 1
-			);
-			console.bufferStart();
-		}
-
-		this.argsv = cmd.split(/[ ]+/) || [cmd];
-		this.command = this.argsv[0];
-		this.arguments = this.argsv;
-
-		if(!wait) this.execute();
+		this.parseCommand(!wait);
 	};
 
 	Constructor.prototype = {
-		pipeResponse: null,
+		sudo: false,
+		params: null,
+		command: null,
+		origCommand: null,
+
+		pipeResponseTo: null,
+		parseCommand: function(exec) {
+			var cmd = this.parsePipes(this.origCommand);
+			var argsv = this.parseArgs(cmd);
+			this.command = this.parseParams(argsv);
+			if(exec) this.execute();
+		},
+		parseParams: function(argsv) {
+			if(argsv[0]==="sudo") {
+				this.sudo = true;
+				argsv.splice(0,1);
+				if(argsv.length < 1) {
+					argsv.push("sudohelp");
+				} else this.displaySudoLecture();
+			}
+			var ret = argsv.slice(0,1);
+			this.params = argsv.slice(1);
+			return argsv[0];
+		},
+		displaySudoLecture: function(){
+			if(ActiveTerminal.session.sudoLecture===true) return;
+			console.log("We trust you have received the usual lecture from the local System Administrator. It usually boils down to these three things:");
+			console.log("\t");
+			console.log("\t#1) Respect the privacy of others.");
+			console.log("\t#2) Think before you type.");
+			console.log("\t#3) With great power comes great responsibility.");
+			console.log("\t");
+			ActiveTerminal.session.sudoLecture = true;
+		},
+		parseArgs: function(cmd) {
+			return this.argsv = cmd.split(/[ ]+/) || [cmd];
+		},
+		parsePipes: function(cmd) {
+			if(cmd.indexOf("|") > -1) {
+				cmd = cmd.substr(0,cmd.indexOf("|"));
+				this.pipeResponseTo = this.origCommand.substr(
+					this.origCommand.indexOf("|") + 1
+				);
+				console.bufferStart();
+			}
+			return cmd;
+		},
 		execute: function(){
 			ActiveTerminal.pausePrompt();
 
@@ -26,9 +60,9 @@ var Command = (function(){
 		},
 		exit: function(code){
 			if(code>=-1) {
-				if(this.pipeResponse!==null) {
+				if(this.pipeResponseTo!==null) {
 					var output = console.bufferGetCleanEnd();
-					var pipeCmd = this.pipeResponse;
+					var pipeCmd = this.pipeResponseTo;
 					var nextPipe = pipeCmd.indexOf("|");
 					if(nextPipe<0) nextPipe = pipeCmd.length;
 

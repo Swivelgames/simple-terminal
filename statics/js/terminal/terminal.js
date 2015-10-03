@@ -102,12 +102,16 @@ var Terminal = (function($, window, undefined){
 		getPromptLead: function() { return this.container.find('.prompt-lead'); },
 
 		generatePromptLead: function(){
+			var pwd = this.session.pwd;
+			if(pwd=="/home/"+this.session.user) pwd = "~";
+			else if(pwd.substr(0,6)=="/home/") pwd = "~"+pwd.substr(6);
+			if(pwd!="/") pwd = pwd.split("/").pop();
 			return $('<div class="prompt" />').append(
 				"[",
 				$('<span class="user" />').text( this.session.user ),
 				$('<span class="host" />').text( '@' + this.session.hostname ),
 				"&nbsp;",
-				$('<span class="pwd" />').text( this.session.pwd ),
+				$('<span class="pwd" />').text( pwd ),
 				"]",
 				$('<span class="char" />').html( "#" )
 			);

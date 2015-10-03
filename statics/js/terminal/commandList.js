@@ -20,6 +20,9 @@ var CommandList = (function(){
 				var newCmd = require([reqDir+cmdName+".js"], function(newCmd){
 					this.register(command, newCmd);
 					if(cmdObj) newCmd.apply(cmdObj);
+				}.bind(this), function(err){
+					console.log("-bash: "+cmdObj.command+": command not found");
+					cmdObj.exit(0);
 				}.bind(this));
 			}).call(this, command, cmdObj);
 		},
