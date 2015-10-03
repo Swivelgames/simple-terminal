@@ -46,7 +46,7 @@ var Terminal = (function($, window, undefined){
 					if(e.which==40 && this.historyIndex < history.length) this.historyIndex++; //down
 
 					if(this.historyIndex === history.length) {
-						$input.val( this.__curInput );
+						$input.val( this.__curInput.trim() );
 					} else {
 						$input.val( history[this.historyIndex].trim() );
 					}

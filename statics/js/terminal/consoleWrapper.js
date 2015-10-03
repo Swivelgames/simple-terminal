@@ -9,8 +9,41 @@ window.console = (function(window, undefined){
 
 	ConsoleWrapper._original_console = (function(){ return window.console; })();
 
+	ConsoleWrapper._buffer = false;
+	ConsoleWrapper._bufferMsgs = [];
+	ConsoleWrapper.bufferStart = function(){ ConsoleWrapper._buffer = true; };
+	ConsoleWrapper.bufferEnd = function(){ ConsoleWrapper._buffer = false; };
+	ConsoleWrapper.bufferClean = function(){ ConsoleWrapper._bufferMsgs = [] };
+	ConsoleWrapper.bufferEndFlush = function(){
+		ConsoleWrapper._buffer = false;
+
+		var msgs = ConsoleWrapper._bufferMsgs;
+
+		for(var i=0;i<msgs.length;i++) {
+			ConsoleWrapper.writeMessage.apply(this, msgs[i]);
+		}
+	};
+	ConsoleWrapper.bufferGetCleanEnd = function(){
+		var ret = ConsoleWrapper.bufferGet();
+		ConsoleWrapper.bufferClean();
+		ConsoleWrapper.bufferEndFlush();
+		return ret;
+	};
+	ConsoleWrapper.bufferGet = function(){
+		var msgs = ConsoleWrapper._bufferMsgs;
+
+		var ret = "";
+		for(var i=0;i<msgs.length;i++) {
+			ret += "\n"+msgs[i][1].join("\n");
+		}
+
+		return ret.trim();
+	};
+
 	ConsoleWrapper.writeMessage = function(type, args) {
-		if(window.ActiveTerminal !== void 0) {
+		if(ConsoleWrapper._buffer) {
+			ConsoleWrapper._bufferMsgs.push([type, Array.prototype.slice.apply(args)]);
+		} else if(window.ActiveTerminal !== void 0) {
 			window.ActiveTerminal.writeMessage(type, args);
 		}
 
