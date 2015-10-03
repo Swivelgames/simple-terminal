@@ -1,5 +1,10 @@
 define(function(){
 	return function(){
+		if(this.hasParam("help")) {
+			console.info("Usage: dance");
+			return this.exit(0);
+		}
+
 		var style = document.createElement('style');
 
 		style.innerHTML = `

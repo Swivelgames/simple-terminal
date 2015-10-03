@@ -1,10 +1,9 @@
-var reqDir = "./statics/js/terminal/commands/";
-
 var CommandList = (function(){
 	var CommandList = function(){};
 
 	CommandList.prototype = {
 		commands: {},
+		reqDir: "./statics/js/terminal/commands/",
 		register: function(command, func){
 			this.commands[command] = func;
 		},
@@ -17,7 +16,7 @@ var CommandList = (function(){
 			(function(command, cmdObj){
 				var cmdName = command.replace(/\//gi,'-');
 
-				var newCmd = require([reqDir+cmdName+".js"], function(newCmd){
+				var newCmd = require([this.reqDir+cmdName+".js"], function(newCmd){
 					this.register(command, newCmd);
 					if(cmdObj) newCmd.apply(cmdObj);
 				}.bind(this), function(err){
