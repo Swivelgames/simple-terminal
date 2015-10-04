@@ -2,6 +2,31 @@
 
 STerm is a JavaScript-based terminal web application. This gimmick employs some very basic, and poorly written, concepts derived from popular Unix-based system's terminals.
 
+
+I wrote the initial code for this in, like, a couple of hours :P
+
+Live Example: http://bluelogicteam.com:2222/
+
+## Quick Start
+
+Type commands (listed under `Commands` section of this doc) similar to those you would write in a unix terminal.
+
+After `cd`ing around the terminal, you'll notice that everything is emulated (poorly albeit; try `ls -la` in various folders :D ).
+
+There is a nifty little (working) package manager that doesn't confirm to any standard out there (because why not?).
+
+Try this:
+```sh
+$ dance
+$ pkg-get -v http://bluelogicteam.com:2222/statics/js/terminal/commands/packages/dance.js
+$ dance
+```
+
+Woohoo!
+
+Now read about writing commands, go create your own packages, and post about them. (Who cares about CORS, right?)
+
+
 ## Commands
 
 Commands can be found inside the `/statics/js/terminal/commands/` directory. These are simply AMD-style modules that return a function to be executed.
