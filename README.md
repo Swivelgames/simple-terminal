@@ -5,7 +5,7 @@ STerm is a JavaScript-based terminal web application. This gimmick employs some 
 
 I wrote the initial code for this in, like, a couple of hours :P
 
-Live Example: http://bluelogicteam.com:2222/
+Live Example: http://sterm.bluelogicteam.com/
 
 ## Quick Start
 
@@ -18,7 +18,7 @@ There is a nifty little (working) package manager that doesn't confirm to any st
 Try this:
 ```sh
 $ dance
-$ pkg-get -v http://bluelogicteam.com:2222/statics/js/terminal/commands/packages/dance.js
+$ pkg-get -v http://sterm.bluelogicteam.com/statics/js/terminal/commands/packages/dance.js
 $ dance
 ```
 
